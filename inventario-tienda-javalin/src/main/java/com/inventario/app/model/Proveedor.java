@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Proveedor {
     private String id;
     private String nombre;
-    private String contacto; // Ej: email o teléfono del contacto
+    private String contacto;
     private String direccion;
 
     public Proveedor() {
@@ -17,8 +17,6 @@ public class Proveedor {
         this.contacto = contacto;
         this.direccion = direccion;
     }
-
-    // --- Getters y Setters ---
 
     public String getId() {
         return id;
@@ -52,7 +50,6 @@ public class Proveedor {
         this.direccion = direccion;
     }
 
-    // --- Métodos equals(), hashCode() y toString() ---
 
     @Override
     public boolean equals(Object o) {

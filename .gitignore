@@ -1,0 +1,16 @@
+# Directorios generados
+/target/
+/out/
+
+# Archivos y directorios de IDE (IntelliJ IDEA)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Archivos de log
+*.log
+
+# Archivos de sistema operativo
+.DS_Store # macOS
+Thumbs.db # Windows
