@@ -1,53 +1,41 @@
-package com.inventario.app.repository; // ¡Este es el paquete correcto para ProductoRepository.java!
+package com.inventario.app.repository;
 
-import com.inventario.app.model.Producto; // Necesitamos importar la clase Producto
+import com.inventario.app.model.Producto;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class ProductoRepository {
-    private static final List<Producto> productos = new ArrayList<>();
-    private static final AtomicLong counter = new AtomicLong();
 
-    static {
-        productos.add(new Producto(String.valueOf(counter.incrementAndGet()), "Teclado Mecánico", "Teclado RGB con switches azules", 75.99, 50));
-        productos.add(new Producto(String.valueOf(counter.incrementAndGet()), "Ratón Inalámbrico", "Ratón ergonómico con batería de larga duración", 25.50, 120));
-        productos.add(new Producto(String.valueOf(counter.incrementAndGet()), "Monitor Curvo 27''", "Monitor gaming 144Hz 1ms", 299.99, 30));
+    private static final Map<String, Producto> productos = new HashMap<>();
+
+    public ProductoRepository() {
     }
 
     public Producto save(Producto producto) {
-        if (producto.getId() == null || producto.getId().isEmpty()) {
-            producto.setId(String.valueOf(counter.incrementAndGet()));
-        }
-        productos.add(producto);
+        productos.put(producto.getId(), producto);
         return producto;
     }
 
-    public List<Producto> findAll() {
-        return new ArrayList<>(productos);
-    }
-
     public Optional<Producto> findById(String id) {
-        return productos.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst();
+        return Optional.ofNullable(productos.get(id));
     }
 
-    public Producto update(String id, Producto updatedProducto) {
-        Optional<Producto> existingProductoOpt = findById(id);
-        if (existingProductoOpt.isPresent()) {
-            Producto existingProducto = existingProductoOpt.get();
-            existingProducto.setNombre(updatedProducto.getNombre());
-            existingProducto.setDescripcion(updatedProducto.getDescripcion());
-            existingProducto.setPrecio(updatedProducto.getPrecio());
-            existingProducto.setStock(updatedProducto.getStock());
-            return existingProducto;
+    public List<Producto> findAll() {
+        return new ArrayList<>(productos.values());
+    }
+
+    public boolean update(Producto producto) {
+        if (productos.containsKey(producto.getId())) {
+            productos.put(producto.getId(), producto);
+            return true;
         }
-        return null;
+        return false;
     }
 
     public boolean deleteById(String id) {
-        return productos.removeIf(p -> p.getId().equals(id));
+        return productos.remove(id) != null;
     }
 }
